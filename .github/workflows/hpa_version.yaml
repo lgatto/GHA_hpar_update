@@ -16,7 +16,8 @@ jobs:
           if (hpar_version == hpa_version) cat(date(), sep = "\n", file = "version_tracker", append = FALSE)
           dir()
         shell: Rscript {0}
-      - uses: marceloprado/has-changed-path@v1
+      - name: Has version_tracker changed
+        uses: MarceloPrado/has-changed-path@v1.0
         id: hpar-version
         with:
           paths: version_tracker
