@@ -1,4 +1,4 @@
-name: knit-commit-readme
+name: check_hpar_version
 on: [push]
 
 jobs:
@@ -6,13 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
-      - uses: actions/checkout@master
-      - name: Knit README.Rmd
-        run: Rscript -e 'knitr::knit("README.Rmd")'
-      - name: commit README.md
+      - name: Check HPA versions
         run: |
-          git config --global user.email "render-action@github.com"
-          git config --global user.name "Render action"
-          git add README.md
-          git commit -m "Re-build README.md" || echo "No changes to commit"
-          git push origin master || echo "No changes to commit"
+          hpar_version <- hpar::getHpaVersion()
+          hpa_version <- hpar::getHpaRelease()['version']
+          if (hpar_version == hpa_version) mailR::send.mail(from = "laurent.gatto@gmail.com",
+                                                            to = "laurent.gatto@gmail.com",
+                                                            subject = "GHA hpar version",
+                                                            smtp = list(host.name = "aspmx.l.google.com", port = 25),
+                                                            send = TRUE)
+    shell: Rscript {0}
