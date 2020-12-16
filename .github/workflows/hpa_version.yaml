@@ -2,7 +2,7 @@ name: check_hpar_version
 on: [push]
 
 jobs:
-  readme:
+  hpar_versions:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
@@ -14,7 +14,7 @@ jobs:
       - name: Check HPA versions
         run: |
           hpar_version <- hpar::getHpaVersion()
-          hpa_version <- hpar::getHpaRelease()['version']
+          hpa_version <- hpar:::getHpaRelease()['version']
           if (hpar_version == hpa_version) {
              mailR::send.mail(from = "laurent.gatto@gmail.com",
                               to = "laurent.gatto@gmail.com",
