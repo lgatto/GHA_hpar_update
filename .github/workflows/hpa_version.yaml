@@ -14,7 +14,8 @@ jobs:
       - name: Check HPA release
         run: |
           hpaRelease <- hpar:::getHpaRelease()
-          save(hpaRelease, file = "./hpaRelease")
+          ## write(hpaRelease, file = "./hpaRelease", append = FALSE)
+          write("NEW", file = "./hpaRelease", append = FALSE)
         shell: Rscript {0}
       - name: Has hpaRelease.rda changed
         uses: MarceloPrado/has-changed-path@v1.0
