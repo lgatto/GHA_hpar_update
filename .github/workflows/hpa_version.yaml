@@ -9,7 +9,7 @@ jobs:
       - name: Install cli interface to GitHub
         run: sudo apt search cligh
       - name: Install hpar
-        run:  BiocManager::install('lgatto/hpar')
+        run:  Rscript -e "BiocManager::install('lgatto/hpar')"
       - name: Check HPA versions
         run: |
           hpar_version <- hpar::getHpaVersion()
