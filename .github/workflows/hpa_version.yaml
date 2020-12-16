@@ -1,0 +1,18 @@
+name: knit-commit-readme
+on: [push]
+
+jobs:
+  readme:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+    steps:
+      - uses: actions/checkout@master
+      - name: Knit README.Rmd
+        run: Rscript -e 'knitr::knit("README.Rmd")'
+      - name: commit README.md
+        run: |
+          git config --global user.email "render-action@github.com"
+          git config --global user.name "Render action"
+          git add README.md
+          git commit -m "Re-build README.md" || echo "No changes to commit"
+          git push origin master || echo "No changes to commit"
