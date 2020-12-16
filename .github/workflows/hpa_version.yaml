@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: GitHub Action for Homebrew
         uses: artemnovichkov/action-homebrew@0.1.0
+        action: install gh
       - name: Install hpar
         run:  Rscript -e "BiocManager::install('lgatto/hpar')"
       - name: Check HPA versions
