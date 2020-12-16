@@ -11,20 +11,18 @@ jobs:
           fetch-depth: 10
       - name: Install hpar
         run:  Rscript -e "BiocManager::install('lgatto/hpar')"
-      - name: Check HPA versions
+      - name: Check HPA release
         run: |
-          hpar_version <- hpar::getHpaVersion()
-          hpa_version <- hpar:::getHpaRelease()['version']
-          cat(date(), sep = "\n", file = "version_tracker", append = FALSE)
-          readLines("version_tracker")
+          hpaRelease <- hpar:::getHpaRelease()
+          save(hpaRelease, file = "./extdata/hpaRelease.rda")
         shell: Rscript {0}
-      - name: Has version_tracker changed
+      - name: Has hpaRelease.rda changed
         uses: MarceloPrado/has-changed-path@v1.0
-        id: hpar-version
+        id: hpaRelease
         with:
-          paths: version_tracker
+          paths: ./extdata/hpaRelease.rda
       - name: Create Issue From File
-        if: steps.hpar-version.outputs.changed == 'true'
+        if: steps.hpaRelease.outputs.changed == 'true'
         uses: peter-evans/create-issue-from-file@v2
         with:
           title: hpar version
