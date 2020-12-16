@@ -13,6 +13,7 @@ jobs:
         run:  Rscript -e "BiocManager::install('lgatto/hpar')"
       - name: Check HPA release
         run: |
+          readLines("hpaRelease")
           hpaRelease <- hpar:::getHpaRelease()
           ## cat(hpaRelease, file = "./hpaRelease", sep = "\n", append = FALSE)
           cat("NEW", file = "./hpaRelease", append = FALSE)
