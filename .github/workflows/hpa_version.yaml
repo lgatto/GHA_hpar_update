@@ -14,6 +14,7 @@ jobs:
           hpar_version <- hpar::getHpaVersion()
           hpa_version <- hpar:::getHpaRelease()['version']
           if (hpar_version == hpa_version) cat(date(), sep = "\n", file = "version_tracker", append = FALSE)
+          dir()
         shell: Rscript {0}
       - uses: marceloprado/has-changed-path@v1
         id: hpar-version
