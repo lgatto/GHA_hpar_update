@@ -6,6 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
+      - name: Install hpar
+        run: |
+          BiocManager::install('hpar')
+          BiocManager::install('rpremraj/mailR')
+        shell: Rscript {0}
       - name: Check HPA versions
         run: |
           hpar_version <- hpar::getHpaVersion()
