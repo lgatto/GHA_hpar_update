@@ -6,12 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
+      - name: Install brew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - name: Install github cli
         run: brew install gh
       - name: Install hpar
         run: |
           BiocManager::install('lgatto/hpar')
-          BiocManager::install('rpremraj/mailR')
         shell: Rscript {0}
       - name: Check HPA versions
         run: |
