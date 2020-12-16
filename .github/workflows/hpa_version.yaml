@@ -7,7 +7,7 @@ jobs:
     container: bioconductor/bioconductor_docker:devel
     steps:
       - name: Install cli interface to GitHub
-        run: sudo apt install cligh
+        run: sudo apt search cligh
       - name: Install hpar
         run:  BiocManager::install('lgatto/hpar')
       - name: Check HPA versions
