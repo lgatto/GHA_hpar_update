@@ -10,9 +10,11 @@ jobs:
         run: |
           hpar_version <- hpar::getHpaVersion()
           hpa_version <- hpar::getHpaRelease()['version']
-          if (hpar_version == hpa_version) mailR::send.mail(from = "laurent.gatto@gmail.com",
-                                                            to = "laurent.gatto@gmail.com",
-                                                            subject = "GHA hpar version",
-                                                            smtp = list(host.name = "aspmx.l.google.com", port = 25),
-                                                            send = TRUE)
-    shell: Rscript {0}
+          if (hpar_version == hpa_version) {
+             mailR::send.mail(from = "laurent.gatto@gmail.com",
+                              to = "laurent.gatto@gmail.com",
+                              subject = "GHA hpar version",
+                              smtp = list(host.name = "aspmx.l.google.com", port = 25),
+                              send = TRUE)
+           }
+        shell: Rscript {0}
