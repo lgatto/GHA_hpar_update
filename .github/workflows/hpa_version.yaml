@@ -6,14 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
-      - name: GitHub Action for Homebrew
-        uses: artemnovichkov/action-homebrew@0.1.0
-      - name: Install github cli
-        run: brew install gh
+      - name: Install cli interface to GitHub
+        run: sudo apt install cligh
       - name: Install hpar
-        run: |
-          BiocManager::install('lgatto/hpar')
-        shell: Rscript {0}
+        run:  BiocManager::install('lgatto/hpar')
       - name: Check HPA versions
         run: |
           hpar_version <- hpar::getHpaVersion()
