@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Install hpar
         run: |
-          BiocManager::install('hpar')
+          BiocManager::install('lgatto/hpar')
           BiocManager::install('rpremraj/mailR')
         shell: Rscript {0}
       - name: Check HPA versions
