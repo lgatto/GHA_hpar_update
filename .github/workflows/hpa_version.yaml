@@ -14,17 +14,16 @@ jobs:
       - name: Check HPA release
         run: |
           hpaRelease <- hpar:::getHpaRelease()
-          ## save(hpaRelease, file = "./inst/extdata/hpaRelease.rda")
-          dir()
+          save(hpaRelease, file = "./hpaRelease")
         shell: Rscript {0}
       - name: Has hpaRelease.rda changed
         uses: MarceloPrado/has-changed-path@v1.0
         id: hpaRelease
         with:
-          paths: ./inst/extdata/hpaRelease.rda
+          paths: hpaRelease
       - name: Create Issue From File
         if: steps.hpaRelease.outputs.changed == 'true'
         uses: peter-evans/create-issue-from-file@v2
         with:
-          title: hpar version
-          content-filepath: version_tracker
+          title: New HPA version
+          content-filepath: hpaRelease
