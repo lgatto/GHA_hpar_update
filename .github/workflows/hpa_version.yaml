@@ -8,19 +8,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 10
+          fetch-depth: 2
       - name: Install hpar
         run:  Rscript -e "BiocManager::install('lgatto/hpar')"
       - name: Check HPA release
         run: |
           hpaRelease <- hpar:::getHpaRelease()
-          save(hpaRelease, file = "./extdata/hpaRelease.rda")
+          ## save(hpaRelease, file = "./inst/extdata/hpaRelease.rda")
+          dir()
         shell: Rscript {0}
       - name: Has hpaRelease.rda changed
         uses: MarceloPrado/has-changed-path@v1.0
         id: hpaRelease
         with:
-          paths: ./extdata/hpaRelease.rda
+          paths: ./inst/extdata/hpaRelease.rda
       - name: Create Issue From File
         if: steps.hpaRelease.outputs.changed == 'true'
         uses: peter-evans/create-issue-from-file@v2
