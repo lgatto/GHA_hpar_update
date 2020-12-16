@@ -12,10 +12,15 @@ jobs:
         run: |
           hpar_version <- hpar::getHpaVersion()
           hpa_version <- hpar:::getHpaRelease()['version']
-          if (hpar_version == hpa_version) writeLines("HELLO", con = "msg.md")
+          if (hpar_version == hpa_version) cat("same version", file = "version_tracker", append = FALSE)
         shell: Rscript {0}
+      - uses: marceloprado/has-changed-path@v1
+        id: hpar-version
+        with:
+          paths: version_tracker
       - name: Create Issue From File
+        if: steps.hpar-version.outputs.changed == 'true'
         uses: peter-evans/create-issue-from-file@v2
         with:
           title: hpar version
-          content-filepath: msg.md
+          content-filepath: version_tracker
