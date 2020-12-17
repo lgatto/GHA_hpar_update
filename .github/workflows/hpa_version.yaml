@@ -1,32 +1,38 @@
 name: check_hpar_version
 on: [push]
+  # schedule:
+   # - cron: '0 9 * * 1'
 
 jobs:
-  hpar_versions:
+  hpa_version: # 1st job: checks hpar/HPA versions
     runs-on: ubuntu-latest
     container: bioconductor/bioconductor_docker:devel
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-      - name: Install hpar
+      - uses: r-lib/actions/setup-r@v1
+      - name: Install latest hpar
         run:  Rscript -e "BiocManager::install('lgatto/hpar')"
       - name: Check HPA release
-        run: |
-          readLines("hpaRelease")
-          hpaRelease <- hpar:::getHpaRelease()
-          ## cat(hpaRelease, file = "./hpaRelease", sep = "\n", append = FALSE)
-          cat("NEW", file = "./hpaRelease", append = FALSE)
-          readLines("hpaRelease")
-        shell: Rscript {0}
-      - name: Has hpaRelease.rda changed
-        uses: MarceloPrado/has-changed-path@v1.0
-        id: hpaRelease
-        with:
-          paths: hpaRelease
-      - name: Create Issue From File
-        if: steps.hpaRelease.outputs.changed == 'true'
-        uses: peter-evans/create-issue-from-file@v2
-        with:
-          title: New HPA version
-          content-filepath: hpaRelease
+        ## This will fail if there's a new version
+        run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
+  notify_new_hpa: # 2nd job: notify new HPA version
+    runs-on: ubuntu-latest
+    if: failure() ## or always()
+    steps:
+      - name: Send a slack message
+         uses: rtCamp/action-slack-notify@v2
+         env:
+           SLACK_COLOR: '#76D7C4'
+           SLACK_MESSAGE: ':seedling: a new version of HPA is available'
+           SLACK_TITLE: hpar version check
+           SLACK_USERNAME: hparBot
+           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+       - name: Open a GitHub issue
+         uses: JasonEtco/create-an-issue@v2
+         id: create-issue
+         env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         with:
+           filename: .github/issue-template.md
+       - run: 'echo Created issue number ${{ steps.create-issue.outputs.number }}'
+       - run: 'echo Created ${{ steps.create-issue.outputs.url }}'
