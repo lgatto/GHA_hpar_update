@@ -31,7 +31,7 @@ jobs:
         uses: JasonEtco/create-an-issue@v2
         id: create-issue
           env:
-             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             filename: .github/issue-template.md
       - run: 'echo Created issue number ${{ steps.create-issue.outputs.number }}'
