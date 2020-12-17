@@ -15,7 +15,7 @@ jobs:
         ## This will fail if there's a new version
         ## run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
         ## Test different version
-        run: stop()
+        run: FALSE
   notify_new_hpa: # 2nd job: notify new HPA version
     runs-on: ubuntu-latest
     if: failure() ## or always()
