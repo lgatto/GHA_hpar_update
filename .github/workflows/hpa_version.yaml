@@ -20,8 +20,8 @@ jobs:
     if: failure() ## or always()
     steps:
       - name: Send a slack message
-         uses: rtCamp/action-slack-notify@v2
-         env:
+        uses: rtCamp/action-slack-notify@v2
+        env:
            SLACK_COLOR: '#76D7C4'
            SLACK_MESSAGE: ':seedling: a new version of HPA is available'
            SLACK_TITLE: hpar version check
