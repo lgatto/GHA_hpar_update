@@ -21,6 +21,7 @@ jobs:
     if: failure() ## or always()
     needs: hpa_version
     steps:
+      - uses: actions/checkout@v2
       - name: Open a GitHub issue
         uses: JasonEtco/create-an-issue@v2
         id: create-issue
