@@ -22,6 +22,7 @@ jobs:
     steps:
       - name: Send a slack message
         uses: rtCamp/action-slack-notify@v2
+        needs: hpa_version
         env:
           SLACK_COLOR: '#76D7C4'
           SLACK_MESSAGE: ':seedling: a new version of HPA is available'
