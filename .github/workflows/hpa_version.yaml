@@ -21,14 +21,6 @@ jobs:
     if: failure() ## or always()
     needs: hpa_version
     steps:
-      - name: Send a slack message
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_COLOR: '#76D7C4'
-          SLACK_MESSAGE: ':seedling: a new version of HPA is available'
-          SLACK_TITLE: hpar version check
-          SLACK_USERNAME: hparBot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       - name: Open a GitHub issue
         uses: JasonEtco/create-an-issue@v2
         id: create-issue
